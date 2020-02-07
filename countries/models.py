@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+
+class Country(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
