@@ -1,11 +1,14 @@
 from rest_framework import serializers
-from .models import Event
+from .models import Event, EventUser
 
 
 class EventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('id', 'name', 'country_id', 'event_date')
+        fields = ('name', 'country_id', 'event_date')
 
-    def create(self, validated_data):
-        return super().create(validated_data)
+
+class EventUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventUser
+        fields = ('user_id', 'event_id')
