@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'countries',
     'events',
     'users',
+    'rest_framework',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'yuhy.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 TEMPLATES = [
     {
