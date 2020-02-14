@@ -1,17 +1,14 @@
-from django.shortcuts import render
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework_jwt.serializers import User
-
+from users.models import User
 from users.serializers import UserSerializer
 
 
-class UserView(APIView):
+class UserView(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     queryset = User.objects.all()
-    serializer_class = EventSerializer
+    serializer_class = UserSerializer
 
     def post(self, request):
         user = request.data
