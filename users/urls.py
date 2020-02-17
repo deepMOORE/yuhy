@@ -4,7 +4,7 @@ from rest_framework import routers
 from users import views
 
 router = routers.DefaultRouter()
-router.register('events', views.UserView)
+router.register('users', views.UserView)
 
 urlpatterns = [
     url(r'create/', include(router.urls)),

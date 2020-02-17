@@ -17,7 +17,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'username', 'password']
 
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)

@@ -10,7 +10,7 @@ class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def post(self, request):
+    def create(self, request, *args, **kwargs):
         user = request.data
         serializer = UserSerializer(data=user)
         serializer.is_valid(raise_exception=True)
