@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-
 from authentication.serializers import RegistrationSerializer
 from users.models import User
 
@@ -13,7 +13,16 @@ class RegistrationView(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as e:
+            return Response({
+                'status': 'failed',
+                'message': e.detail,
+                'data': None,
+            }, status=status.HTTP_201_CREATED)
+
         serializer.save()
 
         return Response({
