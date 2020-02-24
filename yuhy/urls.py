@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
-from authentication.views import RegistrationView
+from authentication.views import RegistrationView, LoginReturnTokenView
 from events.views import EventView
 
 urlpatterns = [
@@ -9,7 +9,7 @@ urlpatterns = [
 
     url(r'^user-register/', RegistrationView.as_view({'post': 'create'})),
 
-    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-auth/', LoginReturnTokenView.as_view()),
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
 ]
