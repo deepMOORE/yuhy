@@ -5,15 +5,17 @@ from users.models import User
 from users.serializers import UserSerializer
 
 
-class UserView(viewsets.ModelViewSet):
+class GetUserView(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
-    queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def create(self, request, *args, **kwargs):
-        user = request.data
-        serializer = UserSerializer(data=user)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    def get_queryset(self):
+        return User.objects.filter(id=self.kwargs['id'])
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_by_id(self, request, *args, **kwargs):
+        serializer = self.serializer_class(self.get_queryset(), many=True)
+        return Response(data={
+            'status': 'success',
+            'message': None,
+            'data': serializer.data
+        }, status=status.HTTP_200_OK)
