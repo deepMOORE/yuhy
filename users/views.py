@@ -17,5 +17,7 @@ class GetUserView(viewsets.ModelViewSet):
         return Response(data={
             'status': 'success',
             'message': None,
-            'data': serializer.data
+            'data': {
+                'user': serializer.data[0]
+            }
         }, status=status.HTTP_200_OK)
