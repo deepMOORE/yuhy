@@ -58,7 +58,7 @@ class EventParticipationView(viewsets.ModelViewSet):
             user_id = serializer.validated_data['user_id']
             event_id = serializer.validated_data['event_id']
 
-            is_already_registered = EventUser.objects.filter(user_id=user_id, event_id=event_id)
+            is_already_registered = bool(EventUser.objects.filter(user_id=user_id, event_id=event_id))
 
             if not is_already_registered:
                 serializer.save()
