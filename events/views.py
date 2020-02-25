@@ -74,3 +74,21 @@ class EventParticipationView(viewsets.ModelViewSet):
                     'message': 'User already participated in this event.',
                     'data': None,
                 }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetUserEventIdsView(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = EventUserSerializer
+
+    def get_queryset(self):
+        return EventUser.objects.filter(user_id=self.request.data['user_id'])
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.serializer_class(self.get_queryset(), many=True)
+
+        return Response(data={
+            'status': 'success',
+            'message': None,
+            'data': serializer.data
+        }, status=status.HTTP_200_OK)
+
