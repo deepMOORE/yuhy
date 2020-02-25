@@ -5,7 +5,7 @@ from .models import Event, EventUser
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['name', 'country_name', 'event_date']
+        fields = ['name', 'event_date', 'description', 'latitude', 'longitude']
 
 
 class EventUserSerializer(serializers.ModelSerializer):
