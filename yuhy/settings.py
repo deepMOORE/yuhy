@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'countries',
     'events',
     'users'
 ]
