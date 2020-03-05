@@ -1,12 +1,12 @@
 from rest_framework import status, viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from users.models import User
 from users.serializers import UserSerializer
 
 
 class GetUserView(viewsets.ModelViewSet):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get_queryset(self):
