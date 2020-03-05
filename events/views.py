@@ -1,18 +1,17 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Event, EventUser
-from .serializers import EventSerializer, EventUserSerializer
+from .serializers import EventSerializer, EventUserSerializer, EventFromUserSerializer
 
 
 class GetEventsView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
-    queryset = Event.objects.all()
     serializer_class = EventSerializer
 
     def list(self, request, *args, **kwargs):
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(Event.objects.all(), many=True)
 
         # todo: create enum with three statuses
         # todo: create response model
@@ -73,12 +72,12 @@ class EventParticipationView(viewsets.ModelViewSet):
                     'status': 'failed',
                     'message': 'User already participated in this event.',
                     'data': None,
-                }, status=status.HTTP_400_BAD_REQUEST)
+                }, status=status.HTTP_200_OK)
 
 
-class GetUserEventIdsView(viewsets.ModelViewSet):
+class EventIdsByUserIdView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
-    serializer_class = EventUserSerializer
+    serializer_class = EventFromUserSerializer
 
     def get_queryset(self):
         return EventUser.objects.filter(user_id=self.request.data['user_id'])
