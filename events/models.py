@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from users.models import User
 
 
 class Event(models.Model):
@@ -28,6 +29,6 @@ class Event(models.Model):
 
 class EventUser(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.PositiveIntegerField()
-    event_id = models.PositiveIntegerField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
