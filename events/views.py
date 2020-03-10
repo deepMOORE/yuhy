@@ -1,9 +1,10 @@
+from django.db import connection
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Event, EventUser
-from .serializers import EventSerializer, EventUserSerializer, EventFromUserSerializer
+from .serializers import EventSerializer, EventUserSerializer
 
 
 class GetEventsView(viewsets.ModelViewSet):
@@ -11,14 +12,22 @@ class GetEventsView(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def list(self, request, *args, **kwargs):
-        serializer = self.serializer_class(Event.objects.all(), many=True)
-
+        cursor = connection.cursor()
+        cursor.execute('SELECT '
+                       'events_event.id, '
+                       'events_event.name, '
+                       'eu.user_id_id, '
+                       'u.username '
+                       'FROM events_event '
+                       'INNER JOIN events_eventuser AS eu ON eu.event_id_id = events_event.id '
+                       'INNER JOIN users_user AS u ON u.id = eu.user_id_id')
+        data = cursor.fetchall()
         # todo: create enum with three statuses
         # todo: create response model
         return Response(data={
             'status': 'success',
             'message': None,
-            'data': serializer.data
+            'data': data
         }, status=status.HTTP_200_OK)
 
 
