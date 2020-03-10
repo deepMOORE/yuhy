@@ -75,19 +75,3 @@ class EventParticipationView(viewsets.ModelViewSet):
                 }, status=status.HTTP_200_OK)
 
 
-class EventIdsByUserIdView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = EventFromUserSerializer
-
-    def get_queryset(self):
-        return EventUser.objects.filter(user_id=self.request.data['user_id'])
-
-    def list(self, request, *args, **kwargs):
-        serializer = self.serializer_class(self.get_queryset(), many=True)
-
-        return Response(data={
-            'status': 'success',
-            'message': None,
-            'data': serializer.data
-        }, status=status.HTTP_200_OK)
-
