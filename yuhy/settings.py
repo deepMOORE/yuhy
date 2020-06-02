@@ -110,10 +110,12 @@ WSGI_APPLICATION = 'yuhy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'yuhy',
-        # todo: Extremely bad practice!
-        'HOST': 'mongodb+srv://vlad:vladsecret@cluster0-wee1f.mongodb.net/yuhy',
+        'USER': 'root',
+        'PASSWORD': 'secret',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 

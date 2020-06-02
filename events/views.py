@@ -13,17 +13,9 @@ class GetEventsView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         cursor = connection.cursor()
-        cursor.execute('SELECT '
-                       'events_event.id, '
-                       'events_event.name, '
-                       'eu.user_id_id, '
-                       'u.username '
-                       'FROM events_event '
-                       'INNER JOIN events_eventuser AS eu ON eu.event_id_id = events_event.id '
-                       'INNER JOIN users_user AS u ON u.id = eu.user_id_id')
+        cursor.execute('SELECT events_event.id as event_id, events_event.name, events_event.latitude, events_event.longitude, events_event.description as event_name FROM events_event')
         data = cursor.fetchall()
-        # todo: create enum with three statuses
-        # todo: create response model
+
         return Response(data={
             'status': 'success',
             'message': None,
